@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { LoginService } from './login.service';
 import { User } from './user';
 import  {FormGroup, FormBuilder, Validators} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent} from './success-dialog.component'
 
 @Component({
     selector: 'app-signup',
@@ -16,8 +19,9 @@ export class SignupComponent implements OnInit
     user : User = new User();
     registerForm: FormGroup;
     hide = true;
-
-    constructor(private router: Router, public loginservice : LoginService, private formBuilder: FormBuilder)
+    private dialogConfig;
+    constructor(private router: Router, public loginservice : LoginService, private formBuilder: FormBuilder,
+    private dialog: MatDialog, private location: Location)
     {
 
     }
@@ -43,6 +47,14 @@ export class SignupComponent implements OnInit
         Validators.maxLength(10)
       ]],
     });
+
+    this.dialogConfig = {
+      height: '200px',
+      width: '400px',
+      disableClose: true,
+      data: { }
+    }
+
     }
 
     login() : void
@@ -53,7 +65,12 @@ export class SignupComponent implements OnInit
     signup(currentuser : User)
     {
         debugger;
-        alert(currentuser.username + ' ' + currentuser.email + ' ' + currentuser.password + ' ' + currentuser.phone);
+         let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
+         dialogRef.afterClosed()
+        .subscribe(result => {
+        this.location.back();
+          });
+        //alert(currentuser.username + ' ' + currentuser.email + ' ' + currentuser.password + ' ' + currentuser.phone);
         this.loginservice.registerUsers(currentuser).subscribe();
     }
 

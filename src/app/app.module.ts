@@ -34,12 +34,14 @@ import { InFlightList } from './Inflight/inflightlist.component';
 import { InFlightService } from './Inflight/inflight.service';
 import { EditUsers } from './login/edit-profile.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule} from '@angular/material/dialog';
+import { SuccessDialogComponent}  from './login/success-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,Passangerdetails,PassangerCreate, AdminComponent, LoginComponent,routingComponents,
     navComponent,navAdminComponent,HomeComponent, Ancillaryservices,Ancillarlistservices,FilterPipe,
-        SignupComponent,InFlightCreate,InFlightList,EditUsers
+        SignupComponent,InFlightCreate,InFlightList,EditUsers,SuccessDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -59,9 +61,11 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule
   ],
   providers: [PassengerService,LoginService,NavbarService,AncillaryService,MatDatepickerModule,InFlightService],
+  //entryComponents :[SuccessDialogComponent],
   //bootstrap: [AppComponent]
   bootstrap:[AppComponent]
 })

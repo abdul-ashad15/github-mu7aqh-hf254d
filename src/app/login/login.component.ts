@@ -4,6 +4,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import { MatIconRegistry } from "@angular/material/icon";
 import { LoginService } from './login.service';
 import { User } from './user';
+import  {FormGroup, FormBuilder, Validators} from '@angular/forms';
 
 const googleLogoURL = 
 "https://raw.githubusercontent.com/fireflysemantics/logo/master/Google.svg";
@@ -18,14 +19,15 @@ export class LoginComponent implements OnInit {
   username : string = "";
   password : string = "";
   userDetails : User[];
-    //loading = false;
-    submitted = false;
-    returnUrl: string;
-    error = '';
+  user : User = new User();
+  submitted = false;
+  returnUrl: string;
+  error = '';
+  registerForm: FormGroup;
 
   constructor(private router: Router,matIconRegistry: MatIconRegistry,
-    domSanitizer: DomSanitizer, public loginService : LoginService,private route: ActivatedRoute
-    ) {
+    domSanitizer: DomSanitizer, public loginService : LoginService,private route: ActivatedRoute,private formBuilder: FormBuilder) 
+    {
       debugger;
       matIconRegistry.addSvgIcon("logo",
         domSanitizer.bypassSecurityTrustResourceUrl(googleLogoURL));
@@ -37,6 +39,17 @@ export class LoginComponent implements OnInit {
 
 
   ngOnInit(): void {
+
+     this.registerForm = this.formBuilder.group({
+      'username': [this.user.username, [
+        Validators.required
+      ]],
+      'password': [this.user.password, [
+        Validators.required,
+        Validators.minLength(6),
+        Validators.maxLength(30)
+      ]],
+    });
     this.loginService.getUsersDetails().subscribe(data =>this.userDetails = data);
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
@@ -55,6 +68,7 @@ export class LoginComponent implements OnInit {
   }
   register() : void
   {
+    debugger;
     this.router.navigate(['/signup']);
   }
 }
