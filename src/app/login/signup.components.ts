@@ -40,7 +40,7 @@ export class SignupComponent implements OnInit
       'phone': [this.user.phone, [
         Validators.required,
          Validators.minLength(10),
-        Validators.maxLength(12)
+        Validators.maxLength(10)
       ]],
     });
     }
@@ -53,10 +53,11 @@ export class SignupComponent implements OnInit
     signup(currentuser : User)
     {
         debugger;
+        alert(currentuser.username + ' ' + currentuser.email + ' ' + currentuser.password + ' ' + currentuser.phone);
         this.loginservice.registerUsers(currentuser).subscribe();
     }
 
-    onRegisterSubmit() {
-    alert(this.user.username + ' ' + this.user.email + ' ' + this.user.password + ' ' + this.user.phone);
+    public checkError = (controlName: string, errorName: string) => {
+    return this.registerForm.controls[controlName].hasError(errorName);
   }
 }
